@@ -23,6 +23,7 @@ source("other.R") # for mid_date function
 
 aquifer_levels <- c("UCA", "LCA", "AGUA", "HU")
 aquifer_colors <- c("green", "blue", "orange", "magenta")
+aquifer_shape <- c(2, 6, 1, 0)
 
 aquifer_data <- read_csv("data/20220915_waimea_nitrate_sites.csv") %>%
   mutate(aquifer = factor(aquifer, levels = aquifer_levels))
@@ -75,8 +76,9 @@ basemap <- get_map(location = c(lon = centre[, "X"], lat = centre[, "Y"]), mapty
 nitrate_map <- ggmap(basemap, darken = c(0.6, "white")) +
   coord_cartesian() +
   geom_sf(study_area_wgs84, mapping = aes(), fill = NA, color = "black", inherit.aes = FALSE) +
-  geom_jitter(waimea_nitrate_data, mapping = aes(lon, lat, color = aquifer), size = 2) +
+  geom_jitter(waimea_nitrate_data, mapping = aes(lon, lat, color = aquifer, shape = aquifer), size = 2) +
   scale_color_manual(values = aquifer_colors) +
+  scale_shape_manual(values = aquifer_shape) + 
   labs(color = "Aquifer") +
   coord_sf(
     xlim = c(bbox["xmin"] - 0.02, bbox["xmax"] + 0.02),
@@ -92,7 +94,9 @@ nitrate_map <- ggmap(basemap, darken = c(0.6, "white")) +
     legend.background = element_blank(),
     legend.key = element_blank(),
     legend.position = c(0.06, 0.9)
-  )
+  ) + 
+  guides(shape = "none")
+
 nitrate_map
 
 ggsave("nitrate_map.png", plot = nitrate_map, width = 7, height = 7)
