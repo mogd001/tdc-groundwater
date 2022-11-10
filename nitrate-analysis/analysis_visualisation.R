@@ -120,7 +120,7 @@ waimea_nitrate_data <- waimea_nitrate_data %>%
   )
 
 analysis_data <- waimea_nitrate_data %>%
-  group_by(site_for_analysis, year_quarter) %>% # resample data to quarterly medians
+  group_by(site_for_analysis, year_quarter, aquifer) %>% # resample data to quarterly medians
   summarise(value = median(value, na.rm = TRUE)) %>%
   ungroup() %>%
   mutate(
@@ -130,15 +130,15 @@ analysis_data <- waimea_nitrate_data %>%
   )
 
 trend_data <- analysis_data %>%
-  group_by(site_for_analysis) %>%
+  group_by(site_for_analysis, aquifer) %>%
   filter(n() > 4) %>%
   summarise(
     n_records = n(),
     mann_kendall_tau = MannKendall(xts(value, date))$tau,
     mann_kendall_sl = MannKendall(xts(value, date))$sl # get mann-kendall values
   ) %>%
-  select(site_for_analysis, n_records, mann_kendall_tau, mann_kendall_sl) %>%
-  st_set_geometry(NULL) %>%
+  select(site_for_analysis, aquifer, n_records, mann_kendall_tau, mann_kendall_sl) %>%
+#  st_set_geometry(NULL) %>%
   mutate(
     trend_direction = ifelse(mann_kendall_tau < 0.1, "Decreasing",
       ifelse(mann_kendall_tau > 0.1, "Increasing", "None")
@@ -148,13 +148,15 @@ trend_data <- analysis_data %>%
     )
   )
 
+st_write(trend_data, "outputs/trend_data.gpkg", "trend_calculations", append = FALSE)
+
 trend_data <- select(waimea_nitrate_data, site_for_analysis) %>%
   st_set_geometry(NULL) %>%
   unique() %>%
   left_join(trend_data, by = "site_for_analysis")
 
 write_csv(trend_data, "outputs/trend_data.csv")
-st_write(trend_data, "outputs/trend_data.gpkg", "trend_calculations", append = FALSE)
+
 
 # Create trend plots for each site
 plot_trend_by_site <- function(site, waimea_nitrate_data, analysis_data) {
@@ -226,3 +228,6 @@ for (aquifer in unique(summary_plot_data$aquifer)) {
   }
   dev.off()
 }
+
+
+# Visualisation
