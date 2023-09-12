@@ -3,7 +3,7 @@ library(tidyverse)
 library(readxl)
 library(glue)
 
-site <- get_sharepoint_site(site_name = "Environmental Monitoring") # Environmental Monitoring
+site <- get_sharepoint_site(site_name = "Environmental Monitoring")
 
 site$get_drive()$list_items("")
 

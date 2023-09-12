@@ -15,7 +15,7 @@ library(ggforce)
 #
 # Matt Ogden, September/October 2022
 #
-# Waimea Plains Nitrate Analysis - Visualisaton
+# Waimea Plains Nitrate Analysis - Visualisation
 #
 ##################
 # source("data_wrangling.R")
