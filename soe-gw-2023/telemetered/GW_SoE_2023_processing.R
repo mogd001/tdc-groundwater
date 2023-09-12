@@ -52,32 +52,31 @@ for (k in 1:length(each_Lsite)) {
 }
 
 ### Min/Max/Mean WQ Summary Table
-
-final_table <- data.frame(matrix(ncol=73, nrow=0))
+num_parameters <- 24
+final_table <- data.frame(matrix(ncol=(num_parameters*4 +1), nrow=0))
 colnames(final_table) <- c("Site", 
-                           "E.coli(min)", "E.coli(max)", "E.coli(avg)",
-                           "Total_Coliforms(min)", "Total_Coliforms(max)","Total_Coliforms(avg)",
-                           "Nitrate-N(min)","Nitrate-N(max)","Nitrate-N(avg)",
-                           "pH(min)","pH(max)","pH(avg)",
-                           "ORP(min)","ORP(max)","ORP(avg)",
-                           "Dissolved_Oxygen_PercentSat(min)","Dissolved_Oxygen_PercentSat(max)","Dissolved_Oxygen_PercentSat(avg)",
-                           "Dissolved_Oxygen(mg/L)(min)","Dissolved_Oxygen(mg/L)(max)","Dissolved_Oxygen(mg/L)(avg)",
-                           "Conductivity(min)","Conductivity(max)","Conductivity(avg)",
-                           "Water_Temperature(min)","Water_Temperature(max)","Water_Temperature(avg)",
-                           "Bromide(min)","Bromide(max)","Bromide(avg)",
-                           "Chloride(min)","Chloride(max)","Chloride(avg)",
-                           "Dissolved_Calcium(min)","Dissolved_Calcium(max)","Dissolved_Calcium(avg)",
-                           "Dissolved_Iron(min)","Dissolved_Iron(max)","Dissolved_Iron(avg)",
-                           "Dissolved_Magnesium(min)","Dissolved_Magnesium(max)","Dissolved_Magnesium(avg)",
-                           "Dissolved_Manganese(min)","Dissolved_Manganese(max)","Dissolved_Manganese(avg)",
-                           "Dissolved_Potassium(min)","Dissolved_Potassium(max)","Dissolved_Potassium(avg)",
-                           "Dissolved_Reactive_Phosphorus(min)","Dissolved_Reactive_Phosphorus(max)","Dissolved_Reactive_Phosphorus(avg)",
-                           "Dissolved_Sodium(min)","Dissolved_Sodium(max)","Dissolved_Sodium(avg)",
-                           "Free_Carbon_Dioxide(min)","Free_Carbon_Dioxide(max)","Free_Carbon_Dioxide(avg)",
-                           "Fluoride(min)","Fluoride(max)","Fluoride(avg)",
-                           "Reactive_Silica(min)","Reactive_Silica(max)","Reactive_Silica(avg)",
-                           "Sulphate(min)","Sulphate(max)","Sulphate(avg)",
-                           "Total_Ammonia(min)","Total_Ammonia(max)","Total_Ammonia(avg)",
-                           "Total_Hardness(min)","Total_Hardness(max)","Total_Hardness(avg)")
-
-
+                           "E.coli(min)", "E.coli(max)", "E.coli(avg)","E.coli(count)",
+                           "Total_Coliforms(min)", "Total_Coliforms(max)","Total_Coliforms(avg)","Total_Coliforms(count)",
+                           "Nitrate-N(min)","Nitrate-N(max)","Nitrate-N(avg)","Nitrate-N(count)",
+                           "pH(min)","pH(max)","pH(avg)","pH(count)",
+                           "ORP(min)","ORP(max)","ORP(avg)","ORP(count)",
+                           "Dissolved_Oxygen_PercentSat(min)","Dissolved_Oxygen_PercentSat(max)","Dissolved_Oxygen_PercentSat(avg)","Dissolved_Oxygen_PercentSat(count)",
+                           "Dissolved_Oxygen(mg/L)(min)","Dissolved_Oxygen(mg/L)(max)","Dissolved_Oxygen(mg/L)(avg)","Dissolved_Oxygen(mg/L)(count)",
+                           "Conductivity(min)","Conductivity(max)","Conductivity(avg)","Conductivity(count)",
+                           "Water_Temperature(min)","Water_Temperature(max)","Water_Temperature(avg)","Water_Temperature(count)",
+                           "Bromide(min)","Bromide(max)","Bromide(avg)","Bromide(count)",
+                           "Chloride(min)","Chloride(max)","Chloride(avg)","Chloride(count)",
+                           "Dissolved_Calcium(min)","Dissolved_Calcium(max)","Dissolved_Calcium(avg)","Dissolved_Calcium(count)",
+                           "Dissolved_Iron(min)","Dissolved_Iron(max)","Dissolved_Iron(avg)","Dissolved_Iron(count)",
+                           "Dissolved_Magnesium(min)","Dissolved_Magnesium(max)","Dissolved_Magnesium(avg)","Dissolved_Magnesium(count)",
+                           "Dissolved_Manganese(min)","Dissolved_Manganese(max)","Dissolved_Manganese(avg)","Dissolved_Manganese(count)",
+                           "Dissolved_Potassium(min)","Dissolved_Potassium(max)","Dissolved_Potassium(avg)","Dissolved_Potassium(count)",
+                           "Dissolved_Reactive_Phosphorus(min)","Dissolved_Reactive_Phosphorus(max)","Dissolved_Reactive_Phosphorus(avg)","Dissolved_Reactive_Phosphorus(count)",
+                           "Dissolved_Sodium(min)","Dissolved_Sodium(max)","Dissolved_Sodium(avg)","Dissolved_Sodium(count)",
+                           "Free_Carbon_Dioxide(min)","Free_Carbon_Dioxide(max)","Free_Carbon_Dioxide(avg)","Free_Carbon_Dioxide(count)",
+                           "Fluoride(min)","Fluoride(max)","Fluoride(avg)","Fluoride(count)",
+                           "Reactive_Silica(min)","Reactive_Silica(max)","Reactive_Silica(avg)","Reactive_Silica(count)",
+                           "Sulphate(min)","Sulphate(max)","Sulphate(avg)","Sulphate(count)",
+                           "Total_Ammonia(min)","Total_Ammonia(max)","Total_Ammonia(avg)","Total_Ammonia(count)",
+                           "Total_Hardness(min)","Total_Hardness(max)","Total_Hardness(avg)","Total_Hardness(count)"
+                           )
