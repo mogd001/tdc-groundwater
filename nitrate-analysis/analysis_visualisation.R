@@ -138,7 +138,6 @@ trend_data <- analysis_data %>%
     mann_kendall_sl = MannKendall(xts(value, date))$sl # get mann-kendall values
   ) %>%
   select(site_for_analysis, aquifer, n_records, mann_kendall_tau, mann_kendall_sl) %>%
-#  st_set_geometry(NULL) %>%
   mutate(
     trend_direction = ifelse(mann_kendall_tau < 0.1, "Decreasing",
       ifelse(mann_kendall_tau > 0.1, "Increasing", "None")
@@ -222,12 +221,9 @@ for (aquifer in unique(summary_plot_data$aquifer)) {
   
   n <- n_pages(gg)
   
-  pdf(glue("{aquifer}_Nitrate_Sampling_Summary.pdf"), paper= 'A4', w= 210/20, 297/20)
+  pdf(glue("outputs/{aquifer}_Nitrate_Sampling_Summary.pdf"), paper= 'A4', w= 210/20, 297/20)
   for(i in 1:n){
     print(gg + facet_wrap_paginate(~bore_no, labeller = label_parsed, ncol = 2, nrow = 5, page = i))
   }
   dev.off()
 }
-
-
-# Visualisation
