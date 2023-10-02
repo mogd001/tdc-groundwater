@@ -1,25 +1,94 @@
 library(lubridate)
 
 ###Load up all the data
-WTemp_in <- read.csv("~/data_processing/2023 SoE GW/GW_WTemp_ArchiveAll.csv", header=FALSE,skip=2)
+WTemp_in <- read.csv("~/data_processing/tdc-groundwater/2023_SoE_GW/telemetered/draft2/GW_ContWTemp_20230927.csv", header=FALSE,skip=2)
 colnames(WTemp_in) <- c('Site','DateTime','WTemp')
 
-Cond_in <- read.csv("~/data_processing/2023 SoE GW/GW_Cond_ArchiveAll.csv", header=FALSE, skip=2)
+Cond_in <- read.csv("~/data_processing/tdc-groundwater/2023_SoE_GW/telemetered/draft2/GW_ContCond_20230927.csv", header=FALSE, skip=2)
 colnames(Cond_in) <- c('Site', 'DateTime', 'Cond')
 
 Lev_in <- read.csv("~/data_processing/2023 SoE GW/GW_WLevel_ArchiveAll.csv", header=FALSE, skip=2)
 colnames(Lev_in) <- c('Site', 'DateTime', 'Level')
 
-WQ_in <- read.csv()
+sitecolors <- c("brown","blue","gold","violet","limegreen")
 
-###Temperature Plots
+### Multi-site plots
+par(mar=c(5.1,5,4.1,2), bg=NA)
+
+Motueka_sites <- c("GW 24601 - Quayle St","GW 2629 - Lodder Lane","GW 20864 - Golf Course","GW 2614 - Fernwood")
+
+png(filename="Motueka_WTemp.png", width=600,height=400)
+site1 <- which(WTemp_in$Site == Motueka_sites[1])
+plot(dmy_hms(WTemp_in$DateTime[site1]), WTemp_in$WTemp[site1], type="l",col="blue",
+     main = "Motueka-Riuwaka Water Temperature", xlab="Year", ylab=expression("Temperature ("^"o"*"C)"),
+     ylim=c(12,20), xlim=c(min(dmy_hms(WTemp_in$DateTime)), max(dmy_hms(WTemp_in$DateTime))))
+site3 <- which(WTemp_in$Site == Motueka_sites[3])
+lines(dmy_hms(WTemp_in$DateTime[site3]), WTemp_in$WTemp[site3], col="brown")
+site4 <- which(WTemp_in$Site == Motueka_sites[4])
+lines(dmy_hms(WTemp_in$DateTime[site4]), WTemp_in$WTemp[site4], col="violet")
+site2 <- which(WTemp_in$Site == Motueka_sites[2])
+lines(dmy_hms(WTemp_in$DateTime[site2]), WTemp_in$WTemp[site2], col="limegreen")
+dev.off()
+
+png(filename="Motueka_Cond.png", width=600,height=400)
+site1 <- which(Cond_in$Site == Motueka_sites[1])
+plot(dmy_hms(Cond_in$DateTime[site1]), Cond_in$Cond[site1], type="l", col="blue",
+     main="Motueka-Riuwaka Conductivity", xlab="Year", ylab=expression(paste("Conductivity (" ,mu,"S/cm)", sep="")),
+     ylim=c(50, 950), xlim=c(min(dmy_hms(Cond_in$DateTime)), max(dmy_hms(Cond_in$DateTime))))
+site3 <- which(Cond_in$Site == Motueka_sites[3])
+lines(dmy_hms(Cond_in$DateTime[site3]), Cond_in$Cond[site3], col="brown")
+site4 <- which(Cond_in$Site == Motueka_sites[4])
+lines(dmy_hms(Cond_in$DateTime[site4]), Cond_in$Cond[site4], col="violet")
+site2 <- which(Cond_in$Site == Motueka_sites[2])
+lines(dmy_hms(Cond_in$DateTime[site2]), Cond_in$Cond[site2], col="limegreen")
+dev.off()
+
+png(filename="Motueka_legend.png", width=600,height=400, bg = "transparent")
+plot(2,2, col="white", xlim = c(0,100),ylim = c(0,100), xaxt="n", xlab="", yaxt="n", ylab="", bg="transparent")
+legend(x=60, y=100, legend=Motueka_Tsite, 
+       col=c("blue","limegreen","brown","violet"),bty="n", pch=19)
+dev.off()
+
+Waimea_sites <- c("GW 119 - Chipmill","GW 22160 - Lwr Queen St","GW 23953 - Redwood Rd")
+
+png(filename="Waimea_WTemp.png", width=600,height=400)
+site1 <- which(WTemp_in$Site == Waimea_sites[1])
+plot(dmy_hms(WTemp_in$DateTime[site1]), WTemp_in$WTemp[site1], type="l",col="brown",
+     main = "Waimea Water Temperature", xlab="Year", ylab=expression("Temperature ("^"o"*"C)"),
+     ylim=c(12,20), xlim=c(min(dmy_hms(WTemp_in$DateTime)), max(dmy_hms(WTemp_in$DateTime))))
+site3 <- which(WTemp_in$Site == Waimea_sites[3])
+lines(dmy_hms(WTemp_in$DateTime[site3]), WTemp_in$WTemp[site3], col="gold")
+site2 <- which(WTemp_in$Site == Waimea_sites[2])
+lines(dmy_hms(WTemp_in$DateTime[site2]), WTemp_in$WTemp[site2], col="blue")
+dev.off()
+
+png(filename="Waimea_Cond.png", width=600,height=400)
+site1 <- which(Cond_in$Site == Waimea_sites[1])
+plot(dmy_hms(Cond_in$DateTime[site1]), Cond_in$Cond[site1], type="l", col="brown",
+     main="Waimea Conductivity", xlab="Year", ylab=expression(paste("Conductivity (" ,mu,"S/cm)", sep="")),
+     ylim=c(50, 950), xlim=c(min(dmy_hms(Cond_in$DateTime)), max(dmy_hms(Cond_in$DateTime))))
+site3 <- which(Cond_in$Site == Waimea_sites[3])
+lines(dmy_hms(Cond_in$DateTime[site3]), Cond_in$Cond[site3], col="gold")
+site2 <- which(Cond_in$Site == Waimea_sites[2])
+lines(dmy_hms(Cond_in$DateTime[site2]), Cond_in$Cond[site2], col="blue")
+dev.off()
+
+png(filename="Waimea_legend.png", width=600,height=400, bg="transparent")
+plot(2,2, col="white", xlim = c(0,100),ylim = c(0,100), xaxt="n", xlab="", yaxt="n", ylab="", bg="transparent")
+legend(x=60, y=100, legend=Waimea_Tsite, 
+       col=c("brown","blue","gold"),bty="n", pch=19)
+dev.off()
+
+
+
+### Temperature Plots
 each_Tsite <- unique(WTemp_in$Site)
 for (i in 1:length(each_Tsite)) {
   one_site <- which(WTemp_in$Site == each_Tsite[i])
 
   png(filename=paste(each_Tsite[i],"_WTemp.jpg", sep=""), width=600,height=400)
   par(mar=c(5.1,5,4.1,2))
-  plot(dmy_hms(WTemp_in$DateTime[one_site]), WTemp_in$WTemp[one_site], type="l", 
+  plot(dmy_hms(WTemp_in$DateTime[one_site]), WTemp_in$WTemp[one_site], type="l", col="blue",
        main = paste(each_Tsite[i]), xlab="Time (years)", ylab=expression("Temperature ("^"o"*"C)"),
        ylim=c(7,27), xlim=c(min(dmy_hms(WTemp_in$DateTime)), max(dmy_hms(WTemp_in$DateTime))))
   dev.off()
@@ -32,7 +101,7 @@ for (j in 1:length(each_Csite)) {
   
   png(filename=paste(each_Csite[j], "_Cond.jpg", sep=""), width=600, height=400)
   par(mar=c(5.1,5,4.1,2))
-  plot(dmy_hms(Cond_in$DateTime[one_site]), Cond_in$Cond[one_site], type="l",
+  plot(dmy_hms(Cond_in$DateTime[one_site]), Cond_in$Cond[one_site], type="l", col="red",
        main=paste(each_Csite[j]), xlab="Time (years)", ylab=expression(paste("Conductivity (" ,mu,"S/cm)", sep="")),
        ylim=c(50, 950), xlim=c(min(dmy_hms(Cond_in$DateTime)), max(dmy_hms(Cond_in$DateTime))))
   dev.off()
@@ -50,33 +119,3 @@ for (k in 1:length(each_Lsite)) {
        ylim=c(-5,200), xlim=c(min(dmy_hms(Lev_in$DateTime)), max(dmy_hms(Lev_in$DateTime))))
   dev.off()
 }
-
-### Min/Max/Mean WQ Summary Table
-num_parameters <- 24
-final_table <- data.frame(matrix(ncol=(num_parameters*4 +1), nrow=0))
-colnames(final_table) <- c("Site", 
-                           "E.coli(min)", "E.coli(max)", "E.coli(avg)","E.coli(count)",
-                           "Total_Coliforms(min)", "Total_Coliforms(max)","Total_Coliforms(avg)","Total_Coliforms(count)",
-                           "Nitrate-N(min)","Nitrate-N(max)","Nitrate-N(avg)","Nitrate-N(count)",
-                           "pH(min)","pH(max)","pH(avg)","pH(count)",
-                           "ORP(min)","ORP(max)","ORP(avg)","ORP(count)",
-                           "Dissolved_Oxygen_PercentSat(min)","Dissolved_Oxygen_PercentSat(max)","Dissolved_Oxygen_PercentSat(avg)","Dissolved_Oxygen_PercentSat(count)",
-                           "Dissolved_Oxygen(mg/L)(min)","Dissolved_Oxygen(mg/L)(max)","Dissolved_Oxygen(mg/L)(avg)","Dissolved_Oxygen(mg/L)(count)",
-                           "Conductivity(min)","Conductivity(max)","Conductivity(avg)","Conductivity(count)",
-                           "Water_Temperature(min)","Water_Temperature(max)","Water_Temperature(avg)","Water_Temperature(count)",
-                           "Bromide(min)","Bromide(max)","Bromide(avg)","Bromide(count)",
-                           "Chloride(min)","Chloride(max)","Chloride(avg)","Chloride(count)",
-                           "Dissolved_Calcium(min)","Dissolved_Calcium(max)","Dissolved_Calcium(avg)","Dissolved_Calcium(count)",
-                           "Dissolved_Iron(min)","Dissolved_Iron(max)","Dissolved_Iron(avg)","Dissolved_Iron(count)",
-                           "Dissolved_Magnesium(min)","Dissolved_Magnesium(max)","Dissolved_Magnesium(avg)","Dissolved_Magnesium(count)",
-                           "Dissolved_Manganese(min)","Dissolved_Manganese(max)","Dissolved_Manganese(avg)","Dissolved_Manganese(count)",
-                           "Dissolved_Potassium(min)","Dissolved_Potassium(max)","Dissolved_Potassium(avg)","Dissolved_Potassium(count)",
-                           "Dissolved_Reactive_Phosphorus(min)","Dissolved_Reactive_Phosphorus(max)","Dissolved_Reactive_Phosphorus(avg)","Dissolved_Reactive_Phosphorus(count)",
-                           "Dissolved_Sodium(min)","Dissolved_Sodium(max)","Dissolved_Sodium(avg)","Dissolved_Sodium(count)",
-                           "Free_Carbon_Dioxide(min)","Free_Carbon_Dioxide(max)","Free_Carbon_Dioxide(avg)","Free_Carbon_Dioxide(count)",
-                           "Fluoride(min)","Fluoride(max)","Fluoride(avg)","Fluoride(count)",
-                           "Reactive_Silica(min)","Reactive_Silica(max)","Reactive_Silica(avg)","Reactive_Silica(count)",
-                           "Sulphate(min)","Sulphate(max)","Sulphate(avg)","Sulphate(count)",
-                           "Total_Ammonia(min)","Total_Ammonia(max)","Total_Ammonia(avg)","Total_Ammonia(count)",
-                           "Total_Hardness(min)","Total_Hardness(max)","Total_Hardness(avg)","Total_Hardness(count)"
-                           )
